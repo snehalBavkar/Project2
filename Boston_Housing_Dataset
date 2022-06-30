@@ -1,0 +1,74 @@
+import numpy as np
+import pandas as pd
+
+from sklearn.metrics import mean_squared_error
+from sklearn.preprocessing import LabelEncoder
+from sklearn.model_selection import train_test_split
+from sklearn.linear_model import LinearRegression
+import numpy as np
+from sklearn import utils
+
+lr=LinearRegression()
+
+df=pd.read_csv("C:/Users/Home/Documents/Snehal/Boston.csv")
+
+print(df)
+
+x=df.drop("medv",axis=1)
+x= pd.DataFrame(np.c_[df['lstat'],df['rm'],df['crim'],df['age']],columns=['lstat','rm','crim','age'])
+y=df["medv"]
+
+#print(x)
+#print(y)
+
+#
+x_train,x_test,y_train,y_test=train_test_split(x,y,random_state=0,test_size=0.3)
+#
+# #print(x_train)
+# #print(x_test)
+# print(y_train)
+# #print(y_test)
+#
+#
+lr.fit(x_train,y_train)
+y_pred=lr.predict(x_test)
+
+print('Mean Squared Error',np.sqrt(mean_squared_error(y_test,y_pred)))
+'''
+from sklearn.ensemble import  ExtraTreesClassifier
+import matplotlib.pyplot as plt
+
+model = ExtraTreesClassifier()
+
+le=LabelEncoder()
+le.fit(y)
+y=le.transform(y)
+model.fit(x,y)
+print(model.feature_importances_)
+
+feat_importance = pd.Series(model.feature_importances_,index=x.columns)
+feat_importance.nlargest(15).plot(kind='barh')
+plt.show()
+'''
+
+
+
+
+#OUTPUT
+'''
+     Unnamed: 0     crim    zn  indus  chas  ...  tax  ptratio   black  lstat  medv
+0             1  0.00632  18.0   2.31     0  ...  296     15.3  396.90   4.98  24.0
+1             2  0.02731   0.0   7.07     0  ...  242     17.8  396.90   9.14  21.6
+2             3  0.02729   0.0   7.07     0  ...  242     17.8  392.83   4.03  34.7
+3             4  0.03237   0.0   2.18     0  ...  222     18.7  394.63   2.94  33.4
+4             5  0.06905   0.0   2.18     0  ...  222     18.7  396.90   5.33  36.2
+..          ...      ...   ...    ...   ...  ...  ...      ...     ...    ...   ...
+501         502  0.06263   0.0  11.93     0  ...  273     21.0  391.99   9.67  22.4
+502         503  0.04527   0.0  11.93     0  ...  273     21.0  396.90   9.08  20.6
+503         504  0.06076   0.0  11.93     0  ...  273     21.0  396.90   5.64  23.9
+504         505  0.10959   0.0  11.93     0  ...  273     21.0  393.45   6.48  22.0
+505         506  0.04741   0.0  11.93     0  ...  273     21.0  396.90   7.88  11.9
+
+[506 rows x 15 columns]
+Mean Squared Error 5.7508884402814555
+'''
